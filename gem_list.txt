@@ -1,0 +1,16 @@
+Silver:B1,D1,Y1
+Silver Knight:Silver,Q2,R3
+Asteriated Ruby:R2,R1,P1
+Quartz:G4,R3,P2
+Jade:G3,E3,B2
+Lucky Chinese Jade:Jade,Quartz,G3
+Dark Emerald:G5,B4,Y2
+Yellow Sapphire:B5,Y4,R4
+Gold:P5,P4,D2
+Pink Diamond:D5,D3,Y3
+Huge Pink Diamond:Pink Diamond,Silver Knight,Silver
+Bloodstone:R5,Q4,P3
+Antique BloodStone:Bloodstone,Volcano,R2
+Cat's Eye:E5,D4,Q3
+Paraiba Tourmaline:Q5,E4,G2
+Carved Tourmaline:Paraiba Tourmaline,Gold,Silver

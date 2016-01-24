@@ -1,0 +1,13 @@
+B=Sapphire
+D=Diamond
+Y=Topaz
+E=Opal
+R=Ruby
+G=Emerald
+Q=Aquamarine
+P=Amethyst
+1=Chipped
+2=Flawed
+3=Normal
+4=Flawless
+5=Perfect
