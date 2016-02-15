@@ -15,12 +15,18 @@ class OptimizingFunction(object):
       return lambda x, y: x < y
 
   def evaluate_placement(self):
-    if not self.best:
-      self.best = self.target
-      return
-
     operator = self.operator
     compare = self.comparator
+    if not self.best:
+      self.best = self.target
+      try:
+            fp = self.kwargs['function_parameter']
+            metric = self.kwargs['function_metric']
+            p = self.kwargs[fp]
+            operator(p, set(self.best))
+            return metric(p)
+      except KeyError:
+        return operator(self.target)
     try:
       fp = self.kwargs['function_parameter']
       metric = self.kwargs['function_metric']

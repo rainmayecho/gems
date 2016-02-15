@@ -1,6 +1,6 @@
 from util import *
 import time
-import Image, ImageTk, ImageDraw
+from PIL import Image, ImageTk, ImageDraw
 
 def next_placements(G, p):
     dirs = [(0, -1), (-1, -1), (-1, 0), (1, 0), (0, 1)]

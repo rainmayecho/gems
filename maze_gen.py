@@ -1,11 +1,10 @@
 import Tkinter
-import Image, ImageTk, ImageDraw
+from PIL import Image, ImageTk, ImageDraw
 import os, sys
 import cStringIO, base64
 from util import *
 from optimizer import OptimizingFunction
 from decision import *
-
 class MazeGenerator(object):
 
 
