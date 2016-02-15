@@ -1,9 +1,10 @@
 from util import *
 import time
 from PIL import Image, ImageTk, ImageDraw
+from random import shuffle
 
 def next_placements(G, p):
-    dirs = [(0, -1), (-1, -1), (-1, 0), (1, 0), (0, 1)]
+    dirs = [(0, -1), (-1, -1), (1, 1), (1, -1), (-1, 1), (-1, 0), (1, 0), (0, 1)]
     res = []
     i, j = p
     for d in dirs:
@@ -36,10 +37,12 @@ class TreeNode(object):
         self.draw = ImageDraw.Draw(self.im)
 
     def get_best_placements(self, depth=18, placements=[]):
-        print 'Depth: %s' %(18-depth)
+#         print 'Depth: %s' %(18-depth)
         if not depth:
             self.score = self.evaluate()
+#             print self.score
             if self.score > 20:
+#                 print placements
                 return placements
             return []
         for p in next_placements(self.grid, self.placement):
@@ -47,11 +50,12 @@ class TreeNode(object):
             i, j = p
             G[i][j] = 1
             node = TreeNode(G, p, None, self.functions)
-            node.get_best_placements(depth-1, placements+[p])
+            _placements = node.get_best_placements(depth-1, placements+[p])
             score = max(node.score, self.evaluate())
-            if score >= 1.5*(19-depth):
-                return placements + [p]
-        return []
+            if score >= 20:
+                self.score = score
+                return _placements
+        return placements
 
     def evaluate(self):
         self.clear_frame()
@@ -61,12 +65,12 @@ class TreeNode(object):
         for name, f in self.functions.items():
             try:
                 f.target = self.get_path()
-                print 'Evaluating OptimizingFunction "%s"...' %(name)
+#                 print 'Evaluating OptimizingFunction "%s"...' %(name)
                 net += f.evaluate_placement()
-                print '----> Net gain: %s' %(net)
+#                 print '----> Net gain: %s' %(net)
             except InvalidPlacement:
                 return -10000
-            time.sleep(5)
+#             time.sleep(.1)
             self.create_frame()
         return net
 
@@ -77,7 +81,7 @@ class TreeNode(object):
         for v, w in _st_pairs:
             p = A_star(self.grid, v, w)
             path.extend(p[:-1])
-        print len(path)
+#         print len(path)
         return path
 
 
@@ -113,6 +117,6 @@ class TreeNode(object):
         self.draw.rectangle([0, 0, self.SIZE, self.SIZE], (0, 0, 0))
 
 class Tree(object):
-    def __init__(self, grid, functions):
-        self.root = TreeNode(grid, (18, 18), None, functions)
+    def __init__(self, grid, start, functions):
+        self.root = TreeNode(grid, start, None, functions)
 

@@ -5,6 +5,8 @@ import cStringIO, base64
 from util import *
 from optimizer import OptimizingFunction
 from decision import *
+from polygon import Polygon
+import random
 class MazeGenerator(object):
 
 
@@ -124,9 +126,11 @@ class MazeGenerator(object):
 
     def generate(self):
         self.clear_frame()
-        DT = Tree(self.grid, self.functions)
-        for i, j in DT.root.get_best_placements():
-            self.grid[i][j] = 1
+        P = Polygon()
+        odd = [(18, 4), (4, 32), (32, 18)]
+        even = [(18, 32), (4, 18)]
+        G = P.construct(self.grid, odd, even)
+        self.grid = G
         return self.create_frame()
 
 

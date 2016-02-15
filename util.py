@@ -1,3 +1,11 @@
+def sign(n):
+    if n < 0:
+        return -1
+    if n > 0:
+        return 1
+    if n == 0:
+        return 0
+
 def flatten(l):
     return [item for sublist in l for item in sublist]
 
@@ -40,7 +48,9 @@ def A_star(G, v, w):
     while q:
         i, j = q.pop(0)
         if (i, j) == w:
-            return resolve_path(path, v, w)
+            ret = resolve_path(path, v, w)
+#             print '%s --> %s: %s' %(v, w, len(ret))
+            return ret
         res, p = expand(G, i, j, path)
         q.extend(res)
         path = p
