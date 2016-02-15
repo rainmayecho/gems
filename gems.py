@@ -15,7 +15,7 @@ class Field(object):
         self.player_one_shots = [[] for _ in xrange(num_players)]
         self.pending_merge_list = []
         self.real_merge_list = []
-        
+
         self._init_field()
         self._init_graph()
         self._run()
@@ -30,7 +30,7 @@ class Field(object):
     def _init_graph(self):
         for v in self.BASE_GEMS:
             self.G[v] = set()
-            
+
         with open('gem_list.txt', 'r') as f:
             for line in f:
                 k, v = line.strip().split(':')
@@ -53,11 +53,12 @@ class Field(object):
         for i in xrange(self.NUM_PLAYERS):
             self.player_rolls.append(raw_input('P%i Rolls: ' %(i+1)).upper().split(' '))
             if self.stagger:
-                self.show_merges()
+                self.show_merges(i)
 
     def _make_selections(self):
         for i in xrange(self.NUM_PLAYERS):
             options = self.player_rolls[i] + self.player_one_shots[i]
+            print options
             s = raw_input('P%i: Select Gem or Merge\n%s' %(i + 1, ''.join(['[%i] %s\n' %(j+1, self.get_gem_name(gem)) for j, gem in enumerate(options)])))
             try:
                 self.field.append(options[int(s)-1])
@@ -77,12 +78,15 @@ class Field(object):
                     self.field.append(gem)
         self.pending_merge_list = []
         self.player_rolls = []
-                    
+
     def get_gem_name(self, alias):
-        g, q = alias
+        try:
+          g, q = alias
+        except ValueError:
+          return alias
         return '%s %s' %(self.names[q], self.names[g])
 
-    def show_merges(self):
+    def show_merges(self, player=None):
         WIDTH = 40
         header_text = 'Available Merges'
         header = '%s%s%s' %(' '*((WIDTH-len(header_text))/2), header_text, ' '*((WIDTH-len(header_text))/2))
@@ -104,9 +108,11 @@ class Field(object):
                     n += min([field.count(req) for req in reqs]),
             for i, player_roll in enumerate(self.player_rolls):
                 if reqs.issubset(player_roll):
+                    if i < player:
+                      continue
                     p = True
                     self.player_one_shots[i].append(gem)
-                    one_shots += 1
+                    one_shots = len(flatten(self.player_one_shots))
             if p:
                 self.pending_merge_list.append(gem)
                 print '%s %s%s(%i) %s' %('|', gem, ' '*(l-len(gem)), max([one_shots, min(n or [0])]), '|')

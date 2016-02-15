@@ -13,7 +13,7 @@ class MazeGenerator(object):
     def __init__(self):
         self.grid = []
         self.paths = []
-        self.SIZE = 1000
+        self.SIZE = 300
         self.NODE_COUNT = 5
         self.im = Image.new('RGB', (self.SIZE, self.SIZE))
         self.draw = ImageDraw.Draw(self.im)

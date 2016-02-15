@@ -21,14 +21,15 @@ class Polygon(object):
     def build(self, grid, s, t):
         v0, v1 = t[0] - s[0], t[1] - s[1]
         i, j = s
-        while v0:
+        while v0 or v1:
             grid[i][j] = 1
-            i += sign(v0)
-            v0 += -sign(v0)
-        while v1:
-            grid[i][j] = 1
-            j += sign(v1)
-            v1 += -sign(v1)
+            if v0:
+              i += sign(v0)
+              v0 += -sign(v0)
+            if v1:
+              j += sign(v1)
+              v1 += -sign(v1)
+
         return grid
 
 
