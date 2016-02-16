@@ -21,14 +21,18 @@ class Polygon(object):
     def build(self, grid, s, t):
         v0, v1 = t[0] - s[0], t[1] - s[1]
         i, j = s
+        grid[i][j] = 1
         while v0 or v1:
-            grid[i][j] = 1
+            print i, j
             if v0:
               i += sign(v0)
               v0 += -sign(v0)
             if v1:
               j += sign(v1)
               v1 += -sign(v1)
+            if grid[i][j] in [2, -1]:
+                continue
+            grid[i][j] = 1
 
         return grid
 
@@ -36,6 +40,7 @@ class Polygon(object):
     def offset(self, p, points):
         J = map(lambda x: x[1], points)
         I = map(lambda x: x[0], points)
+        print J, I
         if p[1] == min(J):
             return (0, -1)
         if p[1] == max(J):
@@ -48,13 +53,15 @@ class Polygon(object):
 
 
     def construct(self, grid, include, exclude):
+        s = include.pop(0)
+        _all = list(include) + list(exclude)
         while include:
-            s = include.pop(0)
             t = self.maximum_cosine(s, include)
-            print s
-            s_off = self.offset(s, include)
-            t_off = self.offset(t, include)
+            s_off = self.offset(s, include + [s])
+            t_off = self.offset(t, include + [s])
             grid = self.build(grid, (s[0] + s_off[0], s[1] + s_off[1]), (t[0] + t_off[0], t[1] + t_off[1]))
-            return grid
+            s = (t[0] + t_off[0], t[1] + t_off[1])
+            include.remove(t)
+        return grid
 
 
