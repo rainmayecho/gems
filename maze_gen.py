@@ -127,9 +127,8 @@ class MazeGenerator(object):
     def generate(self):
         self.clear_frame()
         P = Polygon()
-        odd = [(18, 4), (4, 32), (32, 18)]
-        even = [(18, 32), (4, 18)]
-        G = P.construct(self.grid, odd, even)
+        checkpoints = [(18, 4), (18, 32), (4, 32), (4, 18), (32, 18)]
+        G = P.construct(self.grid, checkpoints)
         self.grid = G
         return self.create_frame()
 
